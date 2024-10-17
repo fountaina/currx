@@ -1,3 +1,21 @@
 body {
-    background-color: red;
+    background-image: 
+    /* linear-gradient(to bottom, rgba(22, 22, 28, 0.9), rgba(22, 22, 28, 0.9)),*/
+    url('../images/CurrX\ background-image.svg'); 
+    padding: 5% 30%;
+}
+
+.logo {
+    width: 25%;
+    margin-bottom: 1%;
+}
+
+h1 {
+    color: white;
+    font-family: "Darker Grotesque", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 4rem;
+    margin: 0;
 }
