@@ -14,5 +14,48 @@
     <h1>MONEY</h1>
     <h1>EXCHANGE</h1>
     <h1>SERVICE</h1>
+
+    <form action="/submit" method="POST">
+        <label for="lang">Base Currency: </label>
+        <select name="base" id="base">
+
+          <% if (locals.currencies) { %>
+
+            <% for (const [key, currency] of Object.entries(locals.currencies)) { %>
+              <option value="<%= key %>"> <%= currency %> </option>
+            <% } %>
+
+          <% } %>
+
+        </select>
+        <!-- <input type="submit" value="Submit" /> -->
+
+        <label for="lang"> Amount to be Converted </label>
+        <!-- <select name="language2" id="lang">
+          <option value="javascript">JavaScript</option>
+          <option value="php">PHP</option>
+          <option value="java">Java</option>
+          <option value="golang">Golang</option>
+          <option value="python">Python</option>
+          <option value="c#">C#</option>
+          <option value="C++">C++</option>
+          <option value="erlang">Erlang</option>
+        </select> -->
+        <input type="number" placeholder="Enter Amount" name="amount"/>
+
+        <label for="lang">Exchange Currency: </label>
+        <select name="rates" id="rates">
+
+          <% if (locals.currencies) { %>
+
+            <% for (const [key, currency] of Object.entries(locals.currencies)) { %>
+              <option value="<%= key %>"> <%= currency %> </option>
+            <% } %>
+            
+          <% } %>
+
+        </select>
+        <input type="submit" value="OK" />
+  </form>
 </body>
 </html>
