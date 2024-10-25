@@ -2,15 +2,15 @@ body {
     background-image: 
     /* linear-gradient(to bottom, rgba(22, 22, 28, 0.9), rgba(22, 22, 28, 0.9)),*/
     url('../images/CurrX\ background-image.svg'); 
-    padding: 5% 30%;
+    padding: 5% 10%;
 }
 
 .logo {
-    width: 25%;
+    width: 15%;
     margin-bottom: 1%;
 }
 
-h1 {
+.top-heading {
     color: white;
     font-family: "Darker Grotesque", sans-serif;
     font-optical-sizing: auto;
@@ -18,4 +18,42 @@ h1 {
     font-style: normal;
     font-size: 4rem;
     margin: 0;
+}
+
+#conversion-block {
+    border-radius: 20px;
+    padding: 2% 2%;
+    background-color: rgb(255 255 255);
+    background-color: #eeeeee;
+}
+
+.conversion-input {
+
+}
+
+.conversion-form {
+    /* display: flex;
+    gap: 5%;
+    justify-content: space-between;
+    padding: 0;
+    border: 0; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.currency {
+    background-color: rgb(247 248 249);
+    border-style: solid;
+    border-color: #717273;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+
+
+.label {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }

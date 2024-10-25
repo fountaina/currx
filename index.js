@@ -13,16 +13,17 @@ app.use(bodyParser.urlencoded({ extended: true}));
 
 app.get("/", async (req, res) => {
 
-    
-    try {
-        const response = await axios.get(`${API_URL}currencies`);
-        const currencies = response.data;
-        console.log(currencies);
-        res.render("index.ejs", {currencies: currencies});
-    } catch (error) {
-        console.error("Failed to get data: " + error.message);
-        res.render("index.ejs");
-    }
+    // try {
+    //     const response = await axios.get(`${API_URL}currencies`);
+    //     const currencies = response.data;
+    //     console.log(currencies);
+    //     res.render("index.ejs", {currencies: currencies});
+    // } catch (error) {
+    //     console.error("Failed to get data: " + error.message);
+    //     res.render("index.ejs");
+    // }
+
+    res.render("index.ejs");
     
 });
 
@@ -30,6 +31,7 @@ app.post("/submit", async (req, res) => {
     // const rates = await axios.get(`${API_URL}latest?base=${req.body.base}`);
 
     console.log(req.body);
+    // console.log(req.body.amount);
     
     // converts client's amount between currency pairs.
     async function convert(from, to, amount) {
