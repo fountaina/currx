@@ -68,27 +68,43 @@
       </div>
 
       <div class="conversion-output">
-
+          <p> <input type="text" placeholder="enter name" name="name" oninput="conversionEventHandler(event)"></p>
+          <p id="converted-currency"></p>
       </div>
       
     </div>
+    <script>
+    //   function fetchUpdates() {
+    //     $.ajax({
+    //       type: 'GET',
+    //       url: '/updates',
+    //       success: (data) => {
+    //         document.getElementById("converted-currency").innerText = data.convertedAmount;
+    //         fetchUpdates();
+    //       },
+    //     });
+    //   }
 
+    //   fetchUpdates();
+    // </script>
   </body>
-<!-- <script>
+<script>
 
-  function conversionEventHandler(event, name) {
+  function conversionEventHandler(event) {
     
     const inputValue = event.target.value;
 
-    fetch("/submit", {
+    fetch("/updates", {
       method: "POST",
       headers: {"content-type": "application/json"},
-      body: {name: inputValue},
+      body: JSON.stringify({ name: inputValue }),
     })
     .then(response => response.json())
-    .then(data => {console.log(data)})
+    .then(data => {
+      const info = JSON.stringify(data.newText);
+      console.log("This is the message from server: " + info + "This was the body value: " + inputValue)})
     .catch(error => {console.error('Error:', error)})
-}
+  }
 
-</script> -->
+</script>
 </html>

@@ -10,6 +10,12 @@ const API_URL = "https://api.frankfurter.app/"
 app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 app.get("/", async (req, res) => {
 
@@ -27,6 +33,8 @@ app.get("/", async (req, res) => {
     
 });
 
+let newAmount;
+
 app.post("/submit", async (req, res) => {
     // const rates = await axios.get(`${API_URL}latest?base=${req.body.base}`);
 
@@ -42,12 +50,35 @@ app.post("/submit", async (req, res) => {
         return Number(convertedAmount);
     }
     // Usage
-    const newAmount = await convert(`${req.body.base}`, `${req.body.new}`, Number(req.body.amount));
+    newAmount = await convert(`${req.body.base}`, `${req.body.new}`, Number(req.body.amount));
     console.log("New Amount: " + newAmount);
 
 });
+
+app.post("/updates", (req, res) => {
+    //Simulate delay
+    const message = "Hello " + JSON.stringify(req.body.name);
+    setTimeout(() => {
+        console.log(req.body);
+        res.json({newText: message});
+    }, 1000);
+});
+
 
 // Initiates port 
 app.listen(port, () => {
     console.log("Server running on port " + port);
 });
+
+// converts client's amount between currency pairs.
+async function convert(from, to, amount) {
+    const response = await axios.get(`https://api.frankfurter.app/latest?base=${from}&symbols=${to}`);
+    const data = response.data;
+    const convertedAmount = (amount * data.rates[to]).toFixed(2);
+    console.log("Converted amount value: " + convertedAmount);
+    return Number(convertedAmount);
+}
+
+function test() {
+    console.log("hello world!");
+}
