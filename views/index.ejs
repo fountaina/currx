@@ -22,16 +22,16 @@
     <div id="conversion-block">
       <div class="conversion-input">
         
-        <form action="/submit" method="POST" class="conversion-form">
+        <form action="/submit" method="POST" id="conversion-form">
             
             <div class="currency">
             <label class="label" for="lang">Amount</label>
-            <input type="number" placeholder="Enter Amount" name="amount"/>
+            <input oninput="conversionEventHandler(event)" type="number" placeholder="Enter Amount" name="amount"/>
             </div>
 
             <div class="base currency"> 
               <label  class="label" for="base">From</label>
-              <select name="base" id="base">
+              <select oninput="conversionEventHandler(event)" name="base" id="base">
 
                 <% if (locals.currencies) { %>
 
@@ -48,12 +48,12 @@
 
             <div class="exchange currency">
               <label class="label" for="lang">To</label>
-              <select name="new" id="new">
+              <select oninput="conversionEventHandler(event)" name="new" id="new">
 
                 <% if (locals.currencies) { %>
 
                   <% for (const [key, currency] of Object.entries(locals.currencies)) { %>
-                    <option value="<%= key %>"> <%= currency %> </option>
+                    <option  value="<%= key %>"> <%= currency %> </option>
                   <% } %>
                   
                 <% } else { %>
@@ -62,47 +62,55 @@
 
               </select>
             </div>
-
-            <input type="submit" value="OK" />
         </form>
       </div>
 
       <div class="conversion-output">
-          <p> <input type="text" placeholder="enter name" name="name" oninput="conversionEventHandler(event)"></p>
+          <p> <input type="text" placeholder="enter name" name="name"></p>
           <p id="converted-currency"></p>
       </div>
       
     </div>
-    <script>
-    //   function fetchUpdates() {
-    //     $.ajax({
-    //       type: 'GET',
-    //       url: '/updates',
-    //       success: (data) => {
-    //         document.getElementById("converted-currency").innerText = data.convertedAmount;
-    //         fetchUpdates();
-    //       },
-    //     });
-    //   }
-
-    //   fetchUpdates();
-    // </script>
   </body>
 <script>
 
-  function conversionEventHandler(event) {
+  // function conversionEventHandler(event) {
     
-    const inputValue = event.target.value;
+  //   const inputValue = event.target.form;
+
+  //   fetch("/updates", {
+  //     method: "POST",
+  //     headers: {"content-type": "application/json"},
+  //     body: JSON.stringify({ inputValue }),
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     const info = data.newText;
+  //     console.log("This is the message from server: " + info + "This was the body value: " + inputValue)
+  //     const changeText = document.querySelector("#converted-currency")
+  //     changeText.textContent = info
+  //   })
+  //   .catch(error => {console.error('Error:', error)})
+  // }
+
+  function conversionEventHandler(event) {
+    document.getElementById("conversion-form").submit();
+    updater();
+  }
+
+  function updater() {
 
     fetch("/updates", {
-      method: "POST",
+      method: "GET",
       headers: {"content-type": "application/json"},
-      body: JSON.stringify({ name: inputValue }),
     })
     .then(response => response.json())
     .then(data => {
-      const info = JSON.stringify(data.newText);
-      console.log("This is the message from server: " + info + "This was the body value: " + inputValue)})
+      const info = data.newAmount;
+      console.log("This is the converted amount: " + info)
+      const changeText = document.querySelector("#converted-currency")
+      changeText.textContent = info
+    })
     .catch(error => {console.error('Error:', error)})
   }
 

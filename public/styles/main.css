@@ -31,7 +31,7 @@ body {
 
 }
 
-.conversion-form {
+#conversion-form {
     /* display: flex;
     gap: 5%;
     justify-content: space-between;

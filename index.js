@@ -55,13 +55,11 @@ app.post("/submit", async (req, res) => {
 
 });
 
-app.post("/updates", (req, res) => {
+app.get("/updates", (req, res) => {
     //Simulate delay
-    const message = "Hello " + JSON.stringify(req.body.name);
     setTimeout(() => {
-        console.log(req.body);
-        res.json({newText: message});
-    }, 1000);
+        res.json({newAmount: newAmount});
+    }, 2000);
 });
 
 
@@ -77,8 +75,4 @@ async function convert(from, to, amount) {
     const convertedAmount = (amount * data.rates[to]).toFixed(2);
     console.log("Converted amount value: " + convertedAmount);
     return Number(convertedAmount);
-}
-
-function test() {
-    console.log("hello world!");
 }
