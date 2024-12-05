@@ -65,7 +65,7 @@ app.get("/updates", (req, res) => {
     //Simulate delay
     setTimeout(() => {
         res.json({newAmount: newAmount});
-    }, 1000);
+    }, 2000);
 });
 
 
