@@ -19,17 +19,17 @@ app.use(function(req, res, next) {
 
 app.get("/", async (req, res) => {
 
-    // try {
-    //     const response = await axios.get(`${API_URL}currencies`);
-    //     const currencies = response.data;
-    //     console.log(currencies);
-    //     res.render("index.ejs", {currencies: currencies});
-    // } catch (error) {
-    //     console.error("Failed to get data: " + error.message);
-    //     res.render("index.ejs");
-    // }
+    try {
+        const response = await axios.get(`${API_URL}currencies`);
+        const currencies = response.data;
+        console.log(currencies);
+        res.render("index.ejs", {currencies: currencies});
+    } catch (error) {
+        console.error("Failed to get data: " + error.message);
+        res.render("index.ejs");
+    }
 
-    res.render("index.ejs");
+    // res.render("index.ejs");
     
 });
 
@@ -43,11 +43,17 @@ app.post("/submit", async (req, res) => {
     
     // converts client's amount between currency pairs.
     async function convert(from, to, amount) {
-        const response = await axios.get(`https://api.frankfurter.app/latest?base=${from}&symbols=${to}`);
-        const data = response.data;
-        const convertedAmount = (amount * data.rates[to]).toFixed(2);
-        console.log("Converted amount value: " + convertedAmount);
-        return Number(convertedAmount);
+
+        try {
+            const response = await axios.get(`https://api.frankfurter.app/latest?base=${from}&symbols=${to}`);
+            const data = response.data;
+            const convertedAmount = (amount * data.rates[to]).toFixed(2);
+            console.log("Converted amount value: " + convertedAmount);
+            return Number(convertedAmount);
+        } catch (error) {
+            console.error("Failed to make request due to: " + error.message);
+        }
+
     }
     // Usage
     newAmount = await convert(`${req.body.base}`, `${req.body.new}`, Number(req.body.amount));
@@ -59,7 +65,7 @@ app.get("/updates", (req, res) => {
     //Simulate delay
     setTimeout(() => {
         res.json({newAmount: newAmount});
-    }, 2000);
+    }, 1000);
 });
 
 

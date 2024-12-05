@@ -31,12 +31,12 @@
 
             <div class="base currency"> 
               <label  class="label" for="base">From</label>
-              <select oninput="conversionEventHandler(event)" name="base" id="base">
+              <select id="from-currency" oninput="conversionEventHandler(event)" name="base" id="base">
 
                 <% if (locals.currencies) { %>
 
                   <% for (const [key, currency] of Object.entries(locals.currencies)) { %>
-                    <option value="<%= key %>"> <%= currency %> </option>
+                    <option id="from-currency-op" value="<%= key %>"> <%= currency %> </option>
                   <% } %>
                 
                 <% } else { %>
@@ -48,12 +48,12 @@
 
             <div class="exchange currency">
               <label class="label" for="lang">To</label>
-              <select oninput="conversionEventHandler(event)" name="new" id="new">
+              <select id="to-currency" oninput="conversionEventHandler(event)" name="new" id="new">
 
                 <% if (locals.currencies) { %>
 
                   <% for (const [key, currency] of Object.entries(locals.currencies)) { %>
-                    <option  value="<%= key %>"> <%= currency %> </option>
+                    <option id="to-currency-op" value="<%= key %>"> <%= currency %> </option>
                   <% } %>
                   
                 <% } else { %>
@@ -66,32 +66,31 @@
       </div>
 
       <div class="conversion-output">
-          <p> <input type="text" placeholder="enter name" name="name"></p>
-          <p id="converted-currency"></p>
+        <p id="message"></p>
+        <p id="converted-currency"></p>
       </div>
       
     </div>
   </body>
 <script>
+  // Gets the from / to currency select tag elements
+  const fromCurrency = document.getElementById("from-currency");
+  const toCurrency = document.getElementById("to-currency");
 
-  // function conversionEventHandler(event) {
-    
-  //   const inputValue = event.target.form;
+  fromCurrency.addEventListener("change", messageUpdater);
+  toCurrency.addEventListener("change", messageUpdater);
 
-  //   fetch("/updates", {
-  //     method: "POST",
-  //     headers: {"content-type": "application/json"},
-  //     body: JSON.stringify({ inputValue }),
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     const info = data.newText;
-  //     console.log("This is the message from server: " + info + "This was the body value: " + inputValue)
-  //     const changeText = document.querySelector("#converted-currency")
-  //     changeText.textContent = info
-  //   })
-  //   .catch(error => {console.error('Error:', error)})
-  // }
+function messageUpdater() {
+  // Updates the message to client indiciating the from and to currency
+  let message = document.querySelector("#message");
+
+  // Get the selected options
+  const fromCurrencyOption = fromCurrency.options[fromCurrency.selectedIndex];
+  const toCurrencyOption = toCurrency.options[toCurrency.selectedIndex];
+
+  // Update the message content
+  message.textContent = `Converting from ${fromCurrencyOption.textContent} to ${toCurrencyOption.textContent}.`;
+}
 
   function conversionEventHandler(event) {
     document.getElementById("conversion-form").submit();
@@ -99,7 +98,7 @@
   }
 
   function updater() {
-
+    // Updates the the "converted-currency" p tag with the newly converted amount
     fetch("/updates", {
       method: "GET",
       headers: {"content-type": "application/json"},
